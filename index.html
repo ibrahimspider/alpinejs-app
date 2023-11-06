@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Alpine Plugins -->
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/@alpinejs/mask@3.x.x/dist/cdn.min.js"
+    ></script>
+    <!-- Alpine core -->
+    <script src="https://unpkg.com/alpinejs" defer></script>
+    <!-- AXIOS -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.0/axios.min.js"
+      integrity="sha512-WrdC3CE9vf1nBf58JHepuWT4x24uTacky9fuzw2g/3L9JkihgwZ6Cfv+JGTtNyosOhEmttMtEZ6H3qJWfI7gIQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <link href="./src/styles.css" rel="stylesheet" />
+    <title>Alpine</title>
+  </head>
+
+  <body>
+    <div class="container mx-auto mt-6 max-w-xl shadow-lg p-6 min-h-screen">
+      <h1 class="text-5xl mb-8">Alpine.js Demo</h1>
+      <!-- x-data -->
+      <div
+        x-data="{
+          open: false,
+          name: 'ibrahim',
+          search: '',
+          posts: [
+          {title: 'Post One'},
+          {title: 'Post Tow'},
+          {title: 'Post Three'},
+          {title: 'Post Four'},
+        ]}"
+      >
+        <!-- x-on x-bind -->
+        <button
+          x-on:click="open = !open"
+          :class="open ? 'bg-blue-800' : 'bg-slate-700'"
+          class="text-white px-8 py-2 rounded-xl"
+        >
+          Toogle
+        </button>
+
+        <!-- x-show , x-transition -->
+        <div x-show="open" x-transition>
+          <p class="bg-gray-200 p-4 my-6 rounded">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore
+            ratione vitae accusamus veniam consectetur maxime voluptatum error
+            aut quia ullam ad voluptatem saepe, odit eos! Perferendis culpa est
+            modi sunt.
+          </p>
+        </div>
+
+        <!-- x-text -->
+        <div class="my-4">
+          The Value Of Name Is : <span x-text="name" class="font-bold"></span>
+        </div>
+
+        <!-- x-effect -->
+        <div x-effect="console.log(open)"></div>
+
+        <!-- x-modle -->
+        <input
+          type="text"
+          class="border p-2 w-full mb-2 mt-6"
+          placeholder="search For Something..."
+          x-model="search"
+        />
+        <p>
+          <span class="font-bold">Search For:</span>
+          <span x-text="search"></span>
+        </p>
+
+        <!-- x-if -->
+        <template x-if="open">
+          <div class="bg-gray-500 p-2 mt-8">Template based a condition</div>
+        </template>
+
+        <!-- x-for -->
+        <h3 class="text-2xl mt-6 font-bold">Posts</h3>
+        <span class="h-[1px] bg-gray-500 inline-block w-7 mb-3"></span>
+        <template x-for="post in posts">
+          <div x-text="post.title"></div>
+        </template>
+
+        <!-- x-ref -->
+        <div class="py-6">
+          <div x-ref="text"></div>
+          <button
+            @click="$refs.text.innerText = 'Hello Worled'"
+            class="bg-black text-white p-2 rounded-lg"
+          >
+            Click
+          </button>
+        </div>
+
+        <!-- x-html -->
+        <div x-html="(await axios.get('./partial.html')).data"></div>
+
+        <!-- $el -->
+        <button
+          x-on:click="$el.innerHTML = 'Hello Worled'"
+          class="mt-4 p-2 border border-dark"
+        >
+          Replace Text
+        </button>
+
+        <!-- $dispatch -->
+        <div @norify="alert('You Have been norified!')">
+          <button
+            @click="$dispatch('norify')"
+            class="bg-green-700 text-white p-2 mt-6 rounded-lg"
+          >
+            Notify
+          </button>
+        </div>
+
+        <!-- $data -->
+        <button
+          @click="getLetestPost($data.posts)"
+          class="bg-orange-800 text-white p-2 mt-6 rounded-lg"
+        >
+          Get Letest Post
+        </button>
+        <!-- x-mask -->
+        <div class="mt-6">
+          <input class="w-full border p-2" x-mask="99/99/9999" placeholder="MM/DD/YYYY" />
+        </div>
+        <!-- footer-->
+        <footer x-data class="pt-3 text-center border-t mt-10">
+          <p>
+            Copyright &copy; <span x-text="new Date().getFullYear()"></span>
+          </p>
+        </footer>
+      </div>
+    </div>
+
+    <script>
+      function getLetestPost(posts) {
+        console.log(posts.slice(-1).pop());
+      }
+    </script>
+  </body>
+</html>

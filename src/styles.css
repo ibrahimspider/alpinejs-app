@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .header-hr {
+    @apply w-24 h-[2px] block m-auto bg-gray-300 relative before:content-[''] before:absolute before:left-0 before:w-[50px] 
+         before:h-[2px] before:bg-blue-300;
+  }
+}
